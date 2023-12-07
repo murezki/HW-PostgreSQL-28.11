@@ -1,0 +1,19 @@
+DROP TABLE IF EXISTS employees;
+
+CREATE TABLE IF NOT EXISTS employees (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(64),
+    salary INT 
+);
+
+INSERT INTO employees (name, salary) VALUES
+    ('Abubandit', 100000),
+    ('Magamed', 90000),
+    ('Maria', 5000),
+    ('Habib', 10000);
+
+CREATE VIEW list AS
+SELECT * FROM employees ORDER BY salary DESC;
+
+CREATE MATERIALIZED VIEW materializedList AS
+SELECT * FROM list;
