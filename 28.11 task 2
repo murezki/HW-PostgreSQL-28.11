@@ -1,0 +1,35 @@
+CREATE TABLE users (
+    user_id INT PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+CREATE TABLE posts (
+    post_id INT PRIMARY KEY,
+    user_id INT,
+    post_text TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+INSERT INTO users (user_id, name) VALUES
+(1, 'user1'),
+(2, 'user2'),
+(3, 'user3');
+
+INSERT INTO posts (post_id, user_id, post_text) VALUES
+(101, 1, 'Post 1 by user1'),
+(102, 1, 'Post 2 by user1'),
+(103, 2, 'Post 1 by user2'),
+(104, 3, 'Post 1 by user3'),
+(105, 3, 'Post 2 by user3'),
+(106, 3, 'Post 3 by user3');
+
+SELECT users.user_id, users.name, COUNT(posts.post_id) AS post_count FROM users
+LEFT JOIN posts ON users.user_id = posts.user_id
+GROUP BY users.user_id, users.name;
+
+CREATE VIEW user_post_counts AS SELECT users.user_id, users.name, COUNT(posts.post_id) AS post_count FROM users
+LEFT JOIN posts ON users.user_id = posts.user_id
+GROUP BY users.user_id, users.name;
+
+SELECT * FROM user_post_counts
+WHERE post_count > 5;
